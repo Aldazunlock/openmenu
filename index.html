@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>exclusiveunlock OPEN MENU</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    
+    :root {
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --accent: #f59e0b;
+      --dark: #0f172a;
+      --darker: #020617;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 0.5rem;
+      font-size: 14px;
+    }
+    
+    .title-gradient {
+      background: linear-gradient(to right, #3b82f6, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: 'Orbitron', sans-serif;
+      text-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+    }
+    
+    .status-online {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    
+    .status-pulse {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      margin-right: 5px;
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+    
+    .step-card {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      margin-bottom: 0.8rem;
+      overflow: hidden;
+    }
+    
+    .step-card:active {
+      transform: scale(0.98);
+    }
+    
+    .step-header {
+      background: rgba(0, 0, 0, 0.25);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 0.6rem 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .step-title {
+      color: #93c5fd;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    
+    .terminal-dots span {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 4px;
+    }
+    
+    .terminal-dots span:nth-child(1) { background-color: #ef4444; }
+    .terminal-dots span:nth-child(2) { background-color: #f59e0b; }
+    .terminal-dots span:nth-child(3) { background-color: #10b981; }
+    
+    .step-content {
+      padding: 0.8rem;
+    }
+    
+    .step-content ul {
+      list-style-type: disc;
+      padding-left: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+    
+    .step-content li {
+      color: #cbd5e1;
+      margin-bottom: 0.3rem;
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(to right, var(--primary), #1d4ed8);
+      color: white;
+    }
+    
+    .btn-primary:active {
+      background: linear-gradient(to right, #1d4ed8, #1e40af);
+      transform: translateY(1px);
+    }
+    
+    .btn-secondary {
+      background: linear-gradient(to right, var(--secondary), #6d28d9);
+      color: white;
+    }
+    
+    .btn-secondary:active {
+      background: linear-gradient(to right, #6d28d9, #5b21b6);
+      transform: translateY(1px);
+    }
+    
+    .highlight {
+      color: #22c55e;
+      font-weight: 600;
+    }
+    
+    .warning {
+      color: #f59e0b;
+      font-weight: 600;
+    }
+    
+    .danger {
+      color: #ef4444;
+      font-weight: 600;
+    }
+    
+    .link {
+      color: #60a5fa;
+      text-decoration: underline;
+    }
+    
+    .footer {
+      margin-top: 1.5rem;
+      padding: 0.8rem;
+      text-align: center;
+      color: #64748b;
+      font-size: 0.7rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    
+    /* تحسينات للشاشات الأكبر */
+    @media (min-width: 640px) {
+      body {
+        padding: 1rem;
+        font-size: 16px;
+      }
+      
+      .step-card {
+        margin-bottom: 1rem;
+      }
+      
+      .step-header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .step-title {
+        font-size: 0.85rem;
+      }
+      
+      .step-content {
+        padding: 1rem;
+      }
+      
+      .step-content li {
+        font-size: 0.9rem;
+      }
+      
+      .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="max-w-md mx-auto">
+    <!-- Header مع مؤشر الحالة -->
+    <div class="text-center py-4">
+      <h1 class="title-gradient text-2xl md:text-3xl font-bold mb-2">
+        exclusiveunlock Open Menu
+      </h1>
+      <div class="flex items-center justify-center space-x-2 mb-3">
+        <span class="status-online">
+          <span class="status-pulse"></span>
+          SYSTEM ONLINE
+        </span>
+        <span class="text-xs text-slate-400">v2.1.5</span>
+      </div>
+      <p class="text-blue-300 text-xs">Advanced iCloud Activation Solution</p>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="terminal-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span class="step-title">Step 1: Download Shortcut</span>
+        <div class="w-8"></div>
+      </div>
+      <div class="step-content">
+        <ul>
+          <li> Download the required shortcut to your device to begin the process. </li>
+        </ul>
+        <div class="text-center">
+          <a href="https://www.icloud.com/shortcuts/92eecdef9205451394c2ed7ae47bd8b6" target="_blank" 
+             class="btn btn-primary">
+            <i class="fas fa-download mr-1"></i> Download Shortcut
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="terminal-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span class="step-title">Step 2: Add to Shortcuts</span>
+        <div class="w-8"></div>
+      </div>
+      <div class="step-content">
+        <ul>
+          <li> After downloading, open the file in the Shortcuts app and tap "Add Shortcut" to install it on your device. </li>
+          <li class="highlight"> Important Note: During Step 4, the shortcut may request permissions. Please allow all. </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="terminal-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span class="step-title">Step 3: Login with Apple ID</span>
+        <div class="w-8"></div>
+      </div>
+      <div class="step-content">
+        <p class="text-gray-300 mb-2 text-sm"> Authenticate using Face ID, Touch ID, or device passcode. </p>
+        <ul>
+          <li> Your device must have a passcode enabled </li>
+          <li> Face ID / Touch ID are also supported (if you don't have Face ID try wrong many times it will show continue with passcode) </li>
+        </ul>
+        <div class="text-center mt-3">
+          <a href="session.php" class="btn btn-secondary">
+            <i class="fas fa-sign-in-alt mr-1"></i> Sign in With Apple ID
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="terminal-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span class="step-title">Step 4: Share Blank Page</span>
+        <div class="w-8"></div>
+      </div>
+      <div class="step-content">
+        <ul>
+          <li> After sign-in, you will be redirected to a blank page. </li>
+          <li> In Safari, tap the Share icon at the bottom, scroll and select FMI OFF OPEN MENU shortcut. </li>
+          <li class="danger">If anything fails, reboot device and try again. </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step-card">
+      <div class="step-header">
+        <div class="terminal-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <span class="step-title">Step 5: Order FMI OFF Code</span>
+        <div class="w-8"></div>
+      </div>
+      <div class="step-content">
+        <ul>
+          <li> Disable Wi-Fi in Settings </li>
+          <li> Disable mobile data</li>
+          <li> Ensure device is completely offline </li>
+          <li>
+            Follow the results here:
+            <a href="" target="_blank" class="link">
+              t.me/openmenu2025
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Use Safari browser for all steps | &copy; exclusiveunlock.com 2025</p>
+    </div>
+  </div>
+
+  <script>
+    // إضافة تأثيرات بسيطة عند التحميل
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.step-card');
+      
+      cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(10px)';
+        
+        setTimeout(() => {
+          card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 100 * index);
+      });
+      
+      // محاكاة تحقق من حالة الخدمة
+      function checkServiceStatus() {
+        const statusElement = document.querySelector('.status-online');
+        const pulseElement = document.querySelector('.status-pulse');
+        
+        // محاكاة اتصال بالخادم (في الواقع سيكون طلب Ajax حقيقي)
+        setTimeout(() => {
+          // افترض أن الخدمة تعمل بشكل طبيعي
+          statusElement.innerHTML = '<span class="status-pulse"></span> SYSTEM ONLINE';
+          statusElement.style.background = 'rgba(34, 197, 94, 0.15)';
+          statusElement.style.color = '#22c55e';
+          pulseElement.style.background = '#22c55e';
+        }, 1500);
+      }
+      
+      checkServiceStatus();
+    });
+  </script>
+</body>
+</html>
